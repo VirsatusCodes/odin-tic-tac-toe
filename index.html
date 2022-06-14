@@ -11,21 +11,22 @@
 <body>
 <div class="container flex">
     <div class="game-board">
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
+        <div class="box flex bottom right">x</div>
+        <div class="box flex bottom right">x</div>
+        <div class="box flex bottom">x</div>
+        <div class="box flex bottom right">x</div>
+        <div class="box flex bottom right">x</div>
+        <div class="box flex bottom">x</div>
+        <div class="box flex right">x</div>
+        <div class="box flex right">x</div>
+        <div class="box flex">x</div>
     </div>
-    <div class="options">
+    <div class="options flex">
         <div class="character-select-box flex">
-            <p>Play as: <button>O</button> <button>X</button></p>
+            <p>Player 1: <button>O</button> <button>X</button></p>
         </div>
         <div class="difficulty-box">
+            <label for="difficulty-choice">A.I. Difficulty</label>
             <select name="Difficulty" id="difficulty-choice">
                 <option value="easy">Easy</option>
                 <option value="doable">Doable</option>
