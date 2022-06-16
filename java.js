@@ -47,6 +47,7 @@ const boardDynamics = (() => {
                 box.textContent = playerOne.icon;
                 boardDynamics.currentPlayer = playerTwo;
                 boardWinChecker();
+                boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
                     alert(boardDynamics.winningPlayer.name + ' Wins!');
                     buttonSetup.gridArray.forEach(buttonSetup.clearData);
@@ -57,6 +58,7 @@ const boardDynamics = (() => {
                 box.textContent= playerTwo.icon;
                 boardDynamics.currentPlayer = playerOne;
                 boardWinChecker();
+                boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
                     alert(boardDynamics.winningPlayer.name + ' Wins!');
                     buttonSetup.gridArray.forEach(buttonSetup.clearData);
@@ -71,7 +73,12 @@ const boardDynamics = (() => {
     /* theres got to be a better way to do this though i cant think of it in a short time */
 
     function boardTieChecker() {
-        if()
+        let tieTicker= 0;
+        for(let i = 0; i<9; i++){
+           if( buttonSetup.gridArray[i].textContent != '') tieTicker++;
+        }
+        if(tieTicker === 9) alert('WOw a TIe!!!')
+        else return
     }
 
     function boardWinChecker() {
