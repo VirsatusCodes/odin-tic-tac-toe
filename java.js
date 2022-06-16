@@ -1,12 +1,12 @@
 'use strict'
 
-const playerFactory = (playerNumber, playerIcon) => {
+const playerFactory = (number, icon, name) => {
     const sayHi = () => console.log('hi');
-   return {playerNumber, playerIcon, sayHi};
+   return {number, icon, sayHi, name};
 };
 
-const playerOne = playerFactory(1, 'X');
-const playerTwo = playerFactory(2, 'O');
+const playerOne = playerFactory(1, 'X', 'Bob');
+const playerTwo = playerFactory(2, 'O', 'Carl');
 
 
 const buttonSetup = (() => {
@@ -15,8 +15,10 @@ const buttonSetup = (() => {
     const oButton = document.querySelector('#o');
     const xButton = document.querySelector('#x');
 
-    function clearBoard(box) {
+    function clearData(box) {
         box.textContent= '';
+        boardDynamics.currentPlayer=0;
+        boardDynamics.winningPlayer=0;
     };
 
     xButton.addEventListener('click', () => {
@@ -28,31 +30,119 @@ const buttonSetup = (() => {
     });
 
     restartButton.addEventListener('click', () => {
-        gridArray.forEach(clearBoard);
+        gridArray.forEach(clearData);
     });  
+    return{gridArray, clearData}
 })();
 
 const boardDynamics = (() => {
-    let currentPlayer = 0
-    const gridArray =Array.from(document.querySelectorAll('.box'))
+    let currentPlayer = 0;
+    let winningPlayer = 0;
 
     function addEvent(box) {
         box.addEventListener('click', () => {
-            if(box.textContent=== ''){
-            if(boardDynamics.currentPlayer === playerOne){
-                box.textContent = playerOne.playerIcon;
+        if(box.textContent=== ''){
+
+            if(boardDynamics.currentPlayer === playerOne)   {
+                box.textContent = playerOne.icon;
                 boardDynamics.currentPlayer = playerTwo;
-            }else if (boardDynamics.currentPlayer === playerTwo){
-                box.textContent= playerTwo.playerIcon;
+                boardWinChecker();
+                if (boardDynamics.winningPlayer != 0) {
+                    alert(boardDynamics.winningPlayer.name + ' Wins!');
+                    buttonSetup.gridArray.forEach(buttonSetup.clearData);
+                } else return   
+
+            }else if (boardDynamics.currentPlayer === playerTwo)    {
+                
+                box.textContent= playerTwo.icon;
                 boardDynamics.currentPlayer = playerOne;
+                boardWinChecker();
+                if (boardDynamics.winningPlayer != 0) {
+                    alert(boardDynamics.winningPlayer.name + ' Wins!');
+                    buttonSetup.gridArray.forEach(buttonSetup.clearData);
+                } else return
+
             }else return
         }
         else return
         });
     };
-    gridArray.forEach(addEvent);
-    return{currentPlayer,}
+
+    /* theres got to be a better way to do this though i cant think of it in a short time */
+
+    function boardTieChecker() {
+        if()
+    }
+
+    function boardWinChecker() {
+
+        if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
+        buttonSetup.gridArray[1].textContent === playerOne.icon && 
+        buttonSetup.gridArray[2].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[3].textContent === playerOne.icon &&
+        buttonSetup.gridArray[4].textContent === playerOne.icon && 
+        buttonSetup.gridArray[5].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[6].textContent === playerOne.icon &&
+        buttonSetup.gridArray[7].textContent === playerOne.icon && 
+        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
+        buttonSetup.gridArray[3].textContent === playerOne.icon && 
+        buttonSetup.gridArray[6].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[1].textContent === playerOne.icon &&
+        buttonSetup.gridArray[4].textContent === playerOne.icon && 
+        buttonSetup.gridArray[7].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[2].textContent === playerOne.icon &&
+        buttonSetup.gridArray[5].textContent === playerOne.icon && 
+        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
+        buttonSetup.gridArray[4].textContent === playerOne.icon && 
+        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+
+        else if(buttonSetup.gridArray[2].textContent === playerOne.icon &&
+        buttonSetup.gridArray[4].textContent === playerOne.icon && 
+        buttonSetup.gridArray[6].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        
+        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[1].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[2].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[3].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[5].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[6].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[7].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[3].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[6].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[1].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[7].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[2].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[5].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        
+        else if(buttonSetup.gridArray[2].textContent === playerTwo.icon &&
+        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
+        buttonSetup.gridArray[6].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+            
+        else return;
+    }
+
+    buttonSetup.gridArray.forEach(addEvent);
+    return{currentPlayer,winningPlayer}
 })();
-
-
-
