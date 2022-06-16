@@ -50,3 +50,12 @@ body{
 .right{
     border-right: 3px solid black;
 }
+
+.character-creation-box{
+    flex-flow: column;
+}
+
+.buttons-box{
+    flex-flow: column;
+    gap: 30px;
+}

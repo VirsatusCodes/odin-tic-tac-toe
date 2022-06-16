@@ -22,8 +22,12 @@
         <div class="box flex"></div>
     </div>
     <div class="options flex">
-        <div class="character-select-box flex">
-            <p>Player: <button id="x">X</button> <button id="o">O</button></p>
+        <div class="character-creation-box flex">
+            <label for="player-title">Your Title</label>
+            <input type="text" name="name" id="player-title">
+
+            <label for="player-icon">Your Battle Cry</label>
+            <input type="text" name="icon" id="player-icon">
         </div>
         <div class="difficulty-box">
             <label for="difficulty-choice">A.I. Difficulty</label>
@@ -33,7 +37,9 @@
                 <option value="impossible">Impossible.</option>
             </select>
         </div>
-        <div class="restart-box">
+        
+        <div class="buttons-box flex">
+            <button id="start-button">Start</button>
             <button id="restart-button">Restart</button>
         </div>
     </div>
