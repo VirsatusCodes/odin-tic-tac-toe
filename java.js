@@ -4,19 +4,31 @@ const playerFactory = (name, icon) => {
    return {name, icon};
 };
 
-const playerOne = playerFactory( 'Bob','X');
-const playerTwo = playerFactory('Computron 9000' ,'Termination');
-
+const AI = playerFactory('Computron 9000' ,'Termination');
+const players = [AI]
 
 const buttonSetup = (() => {
-    const gridArray =Array.from(document.querySelectorAll('.box'))
+    const gridArray =Array.from(document.querySelectorAll('.box'));
+    const startButton = document.querySelector('#start-button');
     const restartButton = document.querySelector('#restart-button');
+    const playerTitleInput = document.querySelector('#player-title');
+    const playerIconInput = document.querySelector('#player-icon');
+
 
     function clearData(box) {
         box.textContent= '';
-        boardDynamics.currentPlayer=playerOne;
+        boardDynamics.currentPlayer=players[1];
         boardDynamics.winningPlayer=0;
+        players.splice(1, 1);
     };
+
+    startButton.addEventListener('click', () => {
+        if (playerTitleInput.value != '' &&  playerIconInput.value != '' && players.length < 2) {
+            let user = playerFactory(playerTitleInput.value.toString(), playerIconInput.value.toString());
+            players.push(user);
+            boardDynamics.currentPlayer=players[1];
+        } else return
+    });
 
     restartButton.addEventListener('click', () => {
         gridArray.forEach(clearData);
@@ -25,16 +37,16 @@ const buttonSetup = (() => {
 })();
 
 const boardDynamics = (() => {
-    let currentPlayer = playerOne;
+    let currentPlayer = players[1];
     let winningPlayer = 0;
 
     function addEvent(box) {
         box.addEventListener('click', () => {
         if(box.textContent=== ''){
 
-            if(boardDynamics.currentPlayer === playerOne)   {
-                box.textContent = playerOne.icon;
-                boardDynamics.currentPlayer = playerTwo;
+            if(boardDynamics.currentPlayer === players[1])   {
+                box.textContent = players[1].icon;
+                boardDynamics.currentPlayer = AI;
                 boardWinChecker();
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
@@ -42,10 +54,10 @@ const boardDynamics = (() => {
                     buttonSetup.gridArray.forEach(buttonSetup.clearData);
                 } else return   
 
-            }else if (boardDynamics.currentPlayer === playerTwo)    {
+            }else if (boardDynamics.currentPlayer === AI)    {
                 
-                box.textContent= playerTwo.icon;
-                boardDynamics.currentPlayer = playerOne;
+                box.textContent= AI.icon;
+                boardDynamics.currentPlayer = players[1];
                 boardWinChecker();
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
@@ -66,75 +78,75 @@ const boardDynamics = (() => {
         for(let i = 0; i<9; i++){
            if( buttonSetup.gridArray[i].textContent != '') tieTicker++;
         }
-        if(tieTicker === 9 && boardDynamics.winningPlayer == 0) alert('WOw a TIe!!!')
+        if(tieTicker === 9 && boardDynamics.winningPlayer === 0) alert('WOw a TIe!!!')
         else return
     }
 
     function boardWinChecker() {
 
-        if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
-        buttonSetup.gridArray[1].textContent === playerOne.icon && 
-        buttonSetup.gridArray[2].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        if(buttonSetup.gridArray[0].textContent === players[1].icon &&
+        buttonSetup.gridArray[1].textContent === players[1].icon && 
+        buttonSetup.gridArray[2].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[3].textContent === playerOne.icon &&
-        buttonSetup.gridArray[4].textContent === playerOne.icon && 
-        buttonSetup.gridArray[5].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[3].textContent === players[1].icon &&
+        buttonSetup.gridArray[4].textContent === players[1].icon && 
+        buttonSetup.gridArray[5].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[6].textContent === playerOne.icon &&
-        buttonSetup.gridArray[7].textContent === playerOne.icon && 
-        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[6].textContent === players[1].icon &&
+        buttonSetup.gridArray[7].textContent === players[1].icon && 
+        buttonSetup.gridArray[8].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
-        buttonSetup.gridArray[3].textContent === playerOne.icon && 
-        buttonSetup.gridArray[6].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[0].textContent === players[1].icon &&
+        buttonSetup.gridArray[3].textContent === players[1].icon && 
+        buttonSetup.gridArray[6].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[1].textContent === playerOne.icon &&
-        buttonSetup.gridArray[4].textContent === playerOne.icon && 
-        buttonSetup.gridArray[7].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[1].textContent === players[1].icon &&
+        buttonSetup.gridArray[4].textContent === players[1].icon && 
+        buttonSetup.gridArray[7].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[2].textContent === playerOne.icon &&
-        buttonSetup.gridArray[5].textContent === playerOne.icon && 
-        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[2].textContent === players[1].icon &&
+        buttonSetup.gridArray[5].textContent === players[1].icon && 
+        buttonSetup.gridArray[8].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[0].textContent === playerOne.icon &&
-        buttonSetup.gridArray[4].textContent === playerOne.icon && 
-        buttonSetup.gridArray[8].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[0].textContent === players[1].icon &&
+        buttonSetup.gridArray[4].textContent === players[1].icon && 
+        buttonSetup.gridArray[8].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
 
-        else if(buttonSetup.gridArray[2].textContent === playerOne.icon &&
-        buttonSetup.gridArray[4].textContent === playerOne.icon && 
-        buttonSetup.gridArray[6].textContent === playerOne.icon) boardDynamics.winningPlayer = playerOne;
+        else if(buttonSetup.gridArray[2].textContent === players[1].icon &&
+        buttonSetup.gridArray[4].textContent === players[1].icon && 
+        buttonSetup.gridArray[6].textContent === players[1].icon) boardDynamics.winningPlayer = players[1];
         
-        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[1].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[2].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[0].textContent === AI.icon &&
+        buttonSetup.gridArray[1].textContent === AI.icon && 
+        buttonSetup.gridArray[2].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[3].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[5].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[3].textContent === AI.icon &&
+        buttonSetup.gridArray[4].textContent === AI.icon && 
+        buttonSetup.gridArray[5].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[6].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[7].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[6].textContent === AI.icon &&
+        buttonSetup.gridArray[7].textContent === AI.icon && 
+        buttonSetup.gridArray[8].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[3].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[6].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[0].textContent === AI.icon &&
+        buttonSetup.gridArray[3].textContent === AI.icon && 
+        buttonSetup.gridArray[6].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[1].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[7].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[1].textContent === AI.icon &&
+        buttonSetup.gridArray[4].textContent === AI.icon && 
+        buttonSetup.gridArray[7].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[2].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[5].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[2].textContent === AI.icon &&
+        buttonSetup.gridArray[5].textContent === AI.icon && 
+        buttonSetup.gridArray[8].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[0].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[8].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[0].textContent === AI.icon &&
+        buttonSetup.gridArray[4].textContent === AI.icon && 
+        buttonSetup.gridArray[8].textContent === AI.icon) boardDynamics.winningPlayer = AI;
         
-        else if(buttonSetup.gridArray[2].textContent === playerTwo.icon &&
-        buttonSetup.gridArray[4].textContent === playerTwo.icon && 
-        buttonSetup.gridArray[6].textContent === playerTwo.icon) boardDynamics.winningPlayer = playerTwo;
+        else if(buttonSetup.gridArray[2].textContent === AI.icon &&
+        buttonSetup.gridArray[4].textContent === AI.icon && 
+        buttonSetup.gridArray[6].textContent === AI.icon) boardDynamics.winningPlayer = AI;
             
         else return;
     }
