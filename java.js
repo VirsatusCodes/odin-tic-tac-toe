@@ -1,33 +1,22 @@
 'use strict'
 
-const playerFactory = (number, icon, name) => {
-    const sayHi = () => console.log('hi');
-   return {number, icon, sayHi, name};
+const playerFactory = (name, icon) => {  
+   return {name, icon};
 };
 
-const playerOne = playerFactory(1, 'X', 'Bob');
-const playerTwo = playerFactory(2, 'O', 'Carl');
+const playerOne = playerFactory( 'Bob','X');
+const playerTwo = playerFactory('Computron 9000' ,'Termination');
 
 
 const buttonSetup = (() => {
     const gridArray =Array.from(document.querySelectorAll('.box'))
     const restartButton = document.querySelector('#restart-button');
-    const oButton = document.querySelector('#o');
-    const xButton = document.querySelector('#x');
 
     function clearData(box) {
         box.textContent= '';
-        boardDynamics.currentPlayer=0;
+        boardDynamics.currentPlayer=playerOne;
         boardDynamics.winningPlayer=0;
     };
-
-    xButton.addEventListener('click', () => {
-        boardDynamics.currentPlayer= playerOne
-    });
-
-    oButton.addEventListener('click', () => {
-        boardDynamics.currentPlayer= playerTwo
-    });
 
     restartButton.addEventListener('click', () => {
         gridArray.forEach(clearData);
@@ -36,7 +25,7 @@ const buttonSetup = (() => {
 })();
 
 const boardDynamics = (() => {
-    let currentPlayer = 0;
+    let currentPlayer = playerOne;
     let winningPlayer = 0;
 
     function addEvent(box) {
@@ -77,7 +66,7 @@ const boardDynamics = (() => {
         for(let i = 0; i<9; i++){
            if( buttonSetup.gridArray[i].textContent != '') tieTicker++;
         }
-        if(tieTicker === 9) alert('WOw a TIe!!!')
+        if(tieTicker === 9 && boardDynamics.winningPlayer == 0) alert('WOw a TIe!!!')
         else return
     }
 
