@@ -3,9 +3,9 @@
 const playerFactory = (name, icon) => {  
    return {name, icon};
 };
-
+const players = [];
 const AI = playerFactory('Computron 9000' ,'Termination');
-const players = [AI]
+players.push(AI);
 
 const buttonSetup = (() => {
     const gridArray =Array.from(document.querySelectorAll('.box'));
@@ -14,6 +14,11 @@ const buttonSetup = (() => {
     const playerTitleInput = document.querySelector('#player-title');
     const playerIconInput = document.querySelector('#player-icon');
 
+    function newRound(box){
+        box.textContent= '';
+        boardDynamics.currentPlayer=players[1];
+        boardDynamics.winningPlayer=0; 
+    }
 
     function clearData(box) {
         box.textContent= '';
@@ -33,14 +38,14 @@ const buttonSetup = (() => {
     restartButton.addEventListener('click', () => {
         gridArray.forEach(clearData);
     });  
-    return{gridArray, clearData}
+    return{gridArray, clearData, newRound}
 })();
 
 const boardDynamics = (() => {
     let currentPlayer = players[1];
     let winningPlayer = 0;
 
-    function addEvent(box) {
+    function boardManagement(box) {
         box.addEventListener('click', () => {
         if(box.textContent=== ''){
 
@@ -51,7 +56,7 @@ const boardDynamics = (() => {
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
                     alert(boardDynamics.winningPlayer.name + ' Wins!');
-                    buttonSetup.gridArray.forEach(buttonSetup.clearData);
+                    buttonSetup.gridArray.forEach(buttonSetup.newRound);
                 } else return   
 
             }else if (boardDynamics.currentPlayer === AI)    {
@@ -62,7 +67,7 @@ const boardDynamics = (() => {
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
                     alert(boardDynamics.winningPlayer.name + ' Wins!');
-                    buttonSetup.gridArray.forEach(buttonSetup.clearData);
+                    buttonSetup.gridArray.forEach(buttonSetup.newRound);
                 } else return
 
             }else return
@@ -78,7 +83,10 @@ const boardDynamics = (() => {
         for(let i = 0; i<9; i++){
            if( buttonSetup.gridArray[i].textContent != '') tieTicker++;
         }
-        if(tieTicker === 9 && boardDynamics.winningPlayer === 0) alert('WOw a TIe!!!')
+        if(tieTicker === 9 && boardDynamics.winningPlayer === 0) {
+            alert('WOw a TIe!!!');
+            buttonSetup.gridArray.forEach(buttonSetup.newRound);
+        }
         else return
     }
 
@@ -151,6 +159,6 @@ const boardDynamics = (() => {
         else return;
     }
 
-    buttonSetup.gridArray.forEach(addEvent);
+    buttonSetup.gridArray.forEach(boardManagement);
     return{currentPlayer,winningPlayer}
 })();
