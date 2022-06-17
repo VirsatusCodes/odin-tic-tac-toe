@@ -16,7 +16,7 @@ const buttonSetup = (() => {
         boardDynamics.currentPlayer=boardDynamics.players[1];
         boardDynamics.winningPlayer=0; 
     }
-
+    /* could setup inheritence here */
     function clearData(box) {
         box.textContent= '';
         boardDynamics.currentPlayer=boardDynamics.players[1];
@@ -166,14 +166,20 @@ const aICreation = (() => {
     
     function AImove() {
     if(difficultyChoice.value === 'easy') {
+        let value = getRandomInt(0,8);
+        console.log(value);
         if(boardDynamics.currentPlayer === boardDynamics.players[0]) {
-        buttonSetup.gridArray[getRandomInt(0,8)].textContent = boardDynamics.players[0].icon;
-        boardDynamics.currentPlayer= boardDynamics.players[1];    
-    }
-        else return
-    }
-    else return
-    }
-
-    return{AImove}
+            console.log(value);
+            for(let i = 0 ; i < 10000;  i++) {
+                if(buttonSetup.gridArray[value].textContent === '') {break;}
+                value = getRandomInt(0,8);
+                console.log(value);
+            };
+            buttonSetup.gridArray[value].textContent= boardDynamics.players[0].icon;
+            boardDynamics.currentPlayer = boardDynamics.players[1];
+        }else return
+    
+    }else return
+    
+    }return{AImove}
 })();
