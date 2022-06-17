@@ -10,7 +10,7 @@ const buttonSetup = (() => {
     const restartButton = document.querySelector('#restart-button');
     const playerTitleInput = document.querySelector('#player-title');
     const playerIconInput = document.querySelector('#player-icon');
-
+    
     function newRound(box){
         box.textContent= '';
         boardDynamics.currentPlayer=boardDynamics.players[1];
@@ -52,23 +52,13 @@ const boardDynamics = (() => {
             if(boardDynamics.currentPlayer === boardDynamics.players[1])   {
                 box.textContent = boardDynamics.players[1].icon;
                 boardDynamics.currentPlayer = boardDynamics.players[0];
+                aICreation.AImove();
                 boardWinChecker();
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
                     alert(boardDynamics.winningPlayer.name + ' Wins!');
                     buttonSetup.gridArray.forEach(buttonSetup.newRound);
                 } else return   
-
-            }else if (boardDynamics.currentPlayer === boardDynamics.players[0])    {
-                
-                box.textContent= boardDynamics.players[0].icon;
-                boardDynamics.currentPlayer = boardDynamics.players[1];
-                boardWinChecker();
-                boardTieChecker();
-                if (boardDynamics.winningPlayer != 0) {
-                    alert(boardDynamics.winningPlayer.name + ' Wins!');
-                    buttonSetup.gridArray.forEach(buttonSetup.newRound);
-                } else return
 
             }else return
         }
@@ -161,4 +151,29 @@ const boardDynamics = (() => {
 
     buttonSetup.gridArray.forEach(boardManagement);
     return{currentPlayer,winningPlayer, players}
+})();
+
+const aICreation = (() => {
+    const difficultyChoice = document.querySelector('#difficulty-choice');
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+      }
+
+   /*^  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random */
+    
+    function AImove() {
+    if(difficultyChoice.value === 'easy') {
+        if(boardDynamics.currentPlayer === boardDynamics.players[0]) {
+        buttonSetup.gridArray[getRandomInt(0,8)].textContent = boardDynamics.players[0].icon;
+        boardDynamics.currentPlayer= boardDynamics.players[1];    
+    }
+        else return
+    }
+    else return
+    }
+
+    return{AImove}
 })();
