@@ -52,7 +52,7 @@ const boardDynamics = (() => {
             if(boardDynamics.currentPlayer === boardDynamics.players[1])   {
                 box.textContent = boardDynamics.players[1].icon;
                 boardDynamics.currentPlayer = boardDynamics.players[0];
-                aICreation.AImove();
+                aICreation.AIController();
                 boardWinChecker();
                 boardTieChecker();
                 if (boardDynamics.winningPlayer != 0) {
@@ -155,31 +155,44 @@ const boardDynamics = (() => {
 
 const aICreation = (() => {
     const difficultyChoice = document.querySelector('#difficulty-choice');
+    let value = getRandomInt(0,8);
+    let tieTicker= 0;
+
+    function boardTieChecker() {
+        tieTicker= 0;
+        for(let i = 0; i<9; i++){
+           if( buttonSetup.gridArray[i].textContent != '') tieTicker++;
+        }
+    };
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-      }
+      };
 
    /*^  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random */
     
-    function AImove() {
-    if(difficultyChoice.value === 'easy') {
-        let value = getRandomInt(0,8);
-        console.log(value);
+
+    function AIRandomMove() {
+    if(buttonSetup.gridArray[value].textContent === '') {
+     return 'its over';
+      }
+      return value = getRandomInt(0,8),  AIRandomMove();
+  };
+
+    function AIController() {
+        boardTieChecker();
+    if(difficultyChoice.value === 'easy' && tieTicker < 9) {
+
         if(boardDynamics.currentPlayer === boardDynamics.players[0]) {
-            console.log(value);
-            for(let i = 0 ; i < 10000;  i++) {
-                if(buttonSetup.gridArray[value].textContent === '') {break;}
-                value = getRandomInt(0,8);
-                console.log(value);
-            };
+
+            AIRandomMove();
             buttonSetup.gridArray[value].textContent= boardDynamics.players[0].icon;
             boardDynamics.currentPlayer = boardDynamics.players[1];
         }else return
     
     }else return
     
-    }return{AImove}
+    }return{AIController}
 })();
