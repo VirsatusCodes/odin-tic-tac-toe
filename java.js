@@ -157,6 +157,19 @@ const aICreation = (() => {
     const difficultyChoice = document.querySelector('#difficulty-choice');
     let value = getRandomInt(0,8);
     let tieTicker= 0;
+    let currentBoardArray = [];
+
+    function boardStateArrayMaker(currentBoard, currentSquare){
+        currentBoardArray = [];
+        currentBoard = buttonSetup.gridArray;
+        for(let i=0 ; i<9 ; i++) {
+        currentSquare = buttonSetup.gridArray[i].textContent;
+        if(currentSquare === '') currentSquare = currentBoardArray.length;
+        currentBoardArray.push(currentSquare);
+        }
+    };
+
+    /* for each maybe better to use ^ */
 
     function boardTieChecker() {
         tieTicker= 0;
@@ -194,5 +207,5 @@ const aICreation = (() => {
     
     }else return
     
-    }return{AIController}
+    }return{AIController, currentBoardArray, boardStateArrayMaker}
 })();
