@@ -150,14 +150,15 @@ const boardDynamics = (() => {
     }
 
     buttonSetup.gridArray.forEach(boardManagement);
-    return{currentPlayer,winningPlayer, players}
+    return{currentPlayer,winningPlayer, players, boardWinChecker}
 })();
 
 const aICreation = (() => {
     const difficultyChoice = document.querySelector('#difficulty-choice');
+    let currentBoardArray = []; 
     let value = getRandomInt(0,8);
     let tieTicker= 0;
-    let currentBoardArray = [];
+
 
     function boardStateArrayMaker(currentBoard, currentSquare){
         currentBoardArray = [];
@@ -168,6 +169,48 @@ const aICreation = (() => {
         currentBoardArray.push(currentSquare);
         }
     };
+
+    function getAllEmptyCellsIndexes() {
+        return currentBoardArray.filter(i => i != boardDynamics.players[0].icon && i != boardDynamics.players[1].icon)
+    }
+
+    function minimax(currentBoard, currentPlayer){
+        let bestPlayInfo = minimax(currentBoardArray, boardDynamics.players[0].icon);
+        let availableCellIndexes = getAllEmptyCellsIndexes();
+        let allTestPlayInfos = [];
+
+        boardDynamics.boardWinChecker();
+        if(boardDynamics.winningPlayer ===0){
+
+        for (let i = 0; i < getAllEmptyCellsIndexes.length ; i++) {
+            let currentTestPlayInfo = {};
+            currentTestPlayInfo.index = currentBoardArray[availableCellIndexes[i]];
+            currentBoardArray[availableCellIndexes[i]] = boardDynamics.currentPlayer.icon;
+
+        if(boardDynamics.currentPlayer === boardDynamics.player[0]) {
+            let result = minimax(currentBoardArray, boardDynamics.players[1] );
+            currentTestPlayInfo.score = result.score;
+        } else {
+            let result = minimax(currentBoardArray, boardDynamics.players[0]);
+            currentTestPlayInfo.score = result.score;
+        };
+        currentBoardArray[availableCellIndexes[i]] = currentTestPlayInfo.index;
+        allTestPlayInfos.push(currentTestPlayInfo)
+        };
+
+    }else return
+    
+    }
+
+    function test(){
+        console.log(currentBoardArray);
+        boardStateArrayMaker();
+        console.log(getAllEmptyCellsIndexes());
+        minimax(currentBoardArray, boardDynamics.players[0].icon)
+    }
+
+
+    
 
     /* for each maybe better to use ^ */
 
@@ -206,6 +249,6 @@ const aICreation = (() => {
         }else return
     
     }else return
-    
-    }return{AIController, currentBoardArray, boardStateArrayMaker}
+
+    }return{AIController,test}
 })();
