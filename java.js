@@ -1,8 +1,11 @@
 'use strict'
 
-const playerFactory = (name, icon) => {  
-   return {name, icon};
-};
+class NewPlayer {
+    constructor(name,icon) {
+        this.name = name;
+        this.icon = icon;
+    }
+}
 
 const buttonSetup = (() => {
     const gridArray =Array.from(document.querySelectorAll('.box'));
@@ -26,7 +29,7 @@ const buttonSetup = (() => {
 
     startButton.addEventListener('click', () => {
         if (playerTitleInput.value != '' &&  playerIconInput.value != '' && boardDynamics.players.length < 2) {
-            let user = playerFactory(playerTitleInput.value.toString(), playerIconInput.value.toString());
+            let user = new NewPlayer(playerTitleInput.value.toString(), playerIconInput.value.toString());
             boardDynamics.players.push(user);
             boardDynamics.currentPlayer=boardDynamics.players[1];
         } else return
@@ -40,7 +43,7 @@ const buttonSetup = (() => {
 
 const boardDynamics = (() => {
     const players = [];
-    const AI = playerFactory('Computron 9000' ,'Termination');
+    const AI = new NewPlayer('Computron 9000' ,'Termination');
     players.push(AI);
     let currentPlayer = players[1];
     let winningPlayer = 0;
