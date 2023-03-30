@@ -240,9 +240,7 @@ const aICreation = (() => {
   }
 
   function test() {
-    console.log(currentBoardArray);
     boardStateArrayMaker();
-    console.log(getAllEmptyCellsIndexes());
     minimax(currentBoardArray, boardDynamics.players[0].icon);
   }
 
